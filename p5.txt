@@ -21,7 +21,6 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
  
     56.149345 s
  
- 
  ** ¿Qué IP tiene la máquina donde se ha efectuado la captura? ¿Se trata de una IP pública o de una IP privada? ¿Por qué lo sabes?
  
     Como la captura no está en modo 'promiscuo' (capturamos todos los paquetes que pasan por la red sin saber el destino ni el origen) podemos saber cual es la máquina donde realizamos la captura. --> 192.168.1.34. 
@@ -50,6 +49,7 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
  ** Y los paquetes con RTP, ¿cuándo se envían?
  
     Segs --> [16, 21]U[23, 39]
+    
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
 
