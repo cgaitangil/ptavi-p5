@@ -130,48 +130,65 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
 
  ** ¿Se registra con éxito en el primer intento?
  
+    No , el servidor registrar envía al solicitante un mensaje de error: 401 Unauthorized
  
  ** ¿Cómo sabemos si el registro se ha realizado correctamente o no?
  
+    Una vez que se envía el segundo intento con el método REGISTER y el servidor registrar envía un mensaje de confirmación 200 OK (paquete 54).
  
  ** ¿Podrías identificar las diferencias entre el primer intento y el segundo de registro? (fíjate en el tamaño de los paquetes y mira a qué se debe el cambio)
  
- 
+    El primer intento tiene un tamaño de 523 y el segundo de 712.
+    El 2º intento contiene una cabecera como la siguiente:
+        'Authorization: Digest username="grex", realm="ekiga.net", nonce="45a439ee7438aaea43ae8c7c2382922187f86c8b", uri="sip:ekiga.net", algorithm=md5, response="5267d4e49d707d4443baefa913e8ff90"'
+    Cuyos valores le permitirán registrarse con éxito en esta ocasión.
+    
  ** ¿Cuánto es el valor del tiempo de expiración de la sesión? Indica las unidades.
 
+    Expires: 3600 seg.
 
 
 10. Una vez registrados, podemos efectuar una llamada. Vamos a probar con el servicio de eco de Ekiga que nos permite comprobar si nos hemos conectado correctamente. El servicio de eco tiene la dirección sip:500@ekiga.net. Veamos el INVITE de cerca.
 
  ** ¿Puede verse el nombre del que efectúa la llamada, así como su dirección SIP?
  
+    From: "Gregorio Robles" <sip:grex@ekiga.net> En este campo podemos ver el nombre y la dirección SIP del que realiza la petición (INVITE).
  
  ** ¿Qué es lo que contiene el cuerpo de la trama? ¿En qué formato/protocolo está?
  
+    _______________________________________
  
  ** ¿Tiene éxito el primer intento? ¿Cómo lo sabes?
  
+    El primer intento no tiene éxito, ya que necesita una autenticación del proxy y  más abajo en la captura se vuelve a intentar el mismo método (paquete 103) siendo confirmado por el paquete 105.
  
  ** ¿En qué se diferencia el segundo INVITE más abajo del primero? ¿A qué crees que se debe esto?
  
-
+    En el tamaño, midiendo el primero 982 y el segundo 1181.
+    El segundo paquete tiene un mayor tamaño ya que, además, envía una autorización del proxy previamente pedida por el servidor en el primer intento.
+    
 
 11. Una vez conectado, estudia el intercambio de tramas
 .
  ** ¿Qué protocolo(s) se utiliza(n)? ¿Para qué sirven estos protocolos?
  
+    Se utilizan los protocolos RTP (Real-Time Transport Protocol) bajo el protocolo UDP para enviar los paquetes y H.261 para codificar video.
  
  ** ¿Cuál es el tamaño de paquete de los mismos?
  
+    El tamaño de los paquetes que se envían con el protocolo RTP es de 214.
  
  ** ¿Se utilizan bits de padding?
  
+    ..0. .... = Padding: False --> No se utilizan.
  
  ** ¿Cuál es la periodicidad de los paquetes que se envían?
  
+    Hay 160 seg entre paquete y paquete de este protocolo.
  
  ** ¿Cuántos bits/segundo estamos enviando?
 
+    ___________________________________________
 
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
@@ -181,13 +198,17 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
  ** ¿Cuántos flujos hay? ¿por qué?
  
  
+ 
  ** ¿Cuántos paquetes se pierden?
+ 
  
  
  ** ¿Cuál es el valor máximo del delta? ¿Y qué es lo que significa el valor de delta?
  
  
+ 
  ** ¿Cuáles son los valores de jitter (medio y máximo)? ¿Qué quiere decir eso? ¿Estamos ante una conversación de calidad?
+ 
  
 
 
@@ -196,19 +217,25 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
  ** ¿Cuánto valen el delta y el jitter para el primer paquete que ha llegado?
  
  
+ 
  ** ¿Podemos saber si éste es el primer paquete que nos han enviado?
+ 
  
  
  ** Los valores de jitter son menores de 10ms hasta un paquete dado. ¿Cuál?
  
  
+ 
  ** ¿A qué se debe el cambio tan brusco del jitter?
+ 
  
  
  ** ¿Es comparable este cambio con el tiempo desde la recepción del paquete anterior? ¿Por qué?
  
  
+ 
  ** ¿Cuál es la dependencia entre el tiempo transcurrido desde el paquete anterior y el valor de jitter?
+ 
  
 
 
@@ -217,7 +244,9 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
  ** ¿Cuánto dura la conversación?
  
  
+ 
  ** ¿Cuáles son sus SSRC? ¿Por qué hay varios SSRCs? ¿Hay CSRCs?
+ 
  
 
 
@@ -226,10 +255,13 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
  ** ¿Qué método SIP se utiliza?
  
  
+ 
  ** ¿En qué trama(s)?
  
  
+ 
  ** ¿Por qué crees que se envía varias veces?
+ 
  
 
 
@@ -238,10 +270,13 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
  ** ¿Por qué aparece una instrucción SIP del tipo REGISTER?
  
  
+ 
  ** ¿En qué trama sucede esto?
  
  
+ 
  ** ¿En qué se diferencia con la instrucción que se utilizó con anterioridad (al principio de la sesión)?
+
 
 
 
