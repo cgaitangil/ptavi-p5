@@ -156,7 +156,7 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
  
  ** ¿Qué es lo que contiene el cuerpo de la trama? ¿En qué formato/protocolo está?
  
-    _______________________________________
+    En la cuerpo del primer invite aparecen los parámetros que definen la conversación establecidos por el protocolo SDP.
  
  ** ¿Tiene éxito el primer intento? ¿Cómo lo sabes?
  
@@ -188,8 +188,8 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
  
  ** ¿Cuántos bits/segundo estamos enviando?
 
-    ___________________________________________
-
+    Time = 160 bytes que equivalen a 20ms.
+    
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
 
@@ -198,6 +198,7 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
  ** ¿Cuántos flujos hay? ¿por qué?
  
     En Telephony/RTP Streams aparecen dos flujos ya que tenemos una maquina (192.168.1.34) que se comunica desde dos puertos distintos (5014 y 5010) con el servdor registrar.
+    Se debe a que tenemos un flujo de audio y otro de video que se envían desde la misma máquina.
  
  ** ¿Cuántos paquetes se pierden?
  
@@ -212,6 +213,8 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
  
     'JITTER: desviación media de la diferencia en el espaciamiento de paquetes en el receptor (receiver) en comparación con el emisor (sender).
     El mean jitter será el valor de la media aritmética de todos los valores de los jitters'.
+    Ej: si en verano tardo en ir a la uni 30 min y en invierno 40 el jitter irá aumentando el valor hasta llegar a los 40, si tardo 30 y es un único dia el que tardo 40 el jitter tendrá un pico pero bajará de nuevo.
+    
     Max Jitter: 183.096
     Mean Jitter: 153.240    Ambos valores del primer flujo, puerto 5014).
 
@@ -294,20 +297,45 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
 
 Captura de una sesión SIP
 
-Captura una sesión SIP de una conversación con el número SIP sip:9999@qxip.net. Tendrás que dar de alta una cuenta en www.ekiga.net con el navegador. Recuerda también que has de comenzar a capturar tramas antes de arrancar Ekiga para ver todo el proceso en el que participa SIP. Para realizar los siguientes ejercicios, deberás crearte una cuenta en ekiga.net y darte de alta la lanzar la aplicación.
+Captura una sesión SIP de una conversación con el número SIP sip:9999@qxip.net. Tendrás que dar de alta una cuenta en www.ekiga.net con el navegador. Recuerda también que has de comenzar a capturar tramas antes de arrancar Ekiga para ver todo el proceso en el que participa SIP. Para realizar los siguientes ejercicios, deberás crearte una cuenta en ekiga.net y darte de alta al lanzar la aplicación.
+
+--------> Llamando al contacto sip:music@iptel.org
 
 17. Observa las diferencias en el inicio de la conversación entre el entorno del laboratorio y el del ejercicio anterior:
+
  ** ¿Es necesario el uso de DNS y STUN? ¿Por qué?
+ 
+    DNS podemos ver que si es usado ya que necesitamos saber la dirección del nombre dado que es pedido al servidor de nombres y el protocolo STUN no es necesario ya que no estamos tras un NAT. 
+ 
  ** ¿Son diferentes el registro y la descripción de la sesión?
+ 
+    Si, ya que la trama que contiene el registro es con el protocolo SIP y la descripción está contenida en el cuerpo de la trama INVITE con el protocolo SDP.
 
 
 18. Identifica las diferencias existentes entre esta conversación y la conversación anterior:
- ** ¿Cuántos flujos tenemos?
- ** ¿Cuál es su periodicidad?
- ** ¿Cuánto es el valor máximo del delta y los valores medios y máximo del jitter?
- ** ¿Podrías reproducir la conversación desde Wireshark? ¿Cómo? Comprueba que poniendo un valor demasiado pequeño para el buffer de jitter, la conversación puede no tener la calidad necesaria.
- ** ¿Sabrías decir qué tipo de servicio ofrece sip:9999@qxip.net?
 
+ ** ¿Cuántos flujos tenemos?
+ 
+    Tenemos dos flujos pero a diferencia de la conversación anterior provienen de diferentes direcciones (y puertos), una de ida y otra de vuelta.
+ 
+ ** ¿Cuál es su periodicidad?
+ 
+    Time = 160 bytes que equivalen a 20ms, igual que en la conversación anterior.
+ 
+ ** ¿Cuánto es el valor máximo del delta y los valores medios y máximo del jitter?
+ 
+                        Max Delta(ms)   Max Jitter  Mean Jitter
+    Flujo 1 (ida) :     30.634          5.053       3.258
+    Flujo 2 (vuelta) :  78.784          6.637       1.494
+ 
+ ** ¿Podrías reproducir la conversación desde Wireshark? ¿Cómo? Comprueba que poniendo un valor demasiado pequeño para el buffer de jitter, la conversación puede no tener la calidad necesaria.
+ 
+    Se puede reproducir, sí, en telephony/RTP. Cuanto 
+ 
+ ** ¿Sabrías decir qué tipo de servicio ofrece sip:9999@qxip.net?
+ 
+    Al llamar a este usuario podemos escuchar la música que este servidor nos envía, también podemos comprobarlo al reproducir la llamada.
+    Ofrece un servicio de música.
 
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
